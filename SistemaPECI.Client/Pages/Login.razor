@@ -1,0 +1,74 @@
+﻿@page "/login"
+@inject ILoginAPIService LoginService
+@inject NavigationManager Navigation
+@inject CustomAuthStateProvider AuthStateProvider
+@inject ITokenStorage TokenStorage
+@using SistemaPECI.Client.Interfaces
+@using SistemaPECI.Client.Modelos
+@using SistemaPECI.Client.Seguridad
+
+<div class="d-flex justify-content-center align-items-center" style="height: 100vh; background: linear-gradient(135deg, #005595, #0078A5);">
+    <div class="card shadow-lg p-4" style="width: 100%; max-width: 400px;">
+        <h4 class="text-center text-primary mb-4">Iniciar sesión</h4>
+
+        <EditForm Model="@loginModel" OnValidSubmit="HandleLogin">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <div class="mb-3">
+                <label class="form-label">Correo</label>
+                <InputText @bind-Value="loginModel.Correo" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Contraseña</label>
+                <InputText @bind-Value="loginModel.Contraseña" type="password" class="form-control" />
+            </div>
+
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div class="alert alert-danger">@errorMessage</div>
+            }
+
+            <button type="submit" class="btn btn-primary w-100" disabled="@isCargando">
+                @if (isCargando)
+                {
+                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                    <span>Iniciando...</span>
+                }
+                else
+                {
+                    <span>Ingresar</span>
+                }
+            </button>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    private LoginModel loginModel = new();
+    private string errorMessage;
+    private bool isCargando = false;
+
+    private async Task HandleLogin()
+    {
+        errorMessage = string.Empty;
+        isCargando = true;
+
+        try
+        {
+            var token = await LoginService.LoginAsync(loginModel);
+            await TokenStorage.GuardarTokenAsync(token);
+            AuthStateProvider.NotifyLogin(token);
+            Navigation.NavigateTo("/");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = "Error al iniciar sesión: " + ex.Message;
+        }
+        finally
+        {
+            isCargando = false;
+        }
+    }
+}

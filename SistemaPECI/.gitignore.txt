@@ -1,0 +1,31 @@
+# Archivos de compilación
+bin/
+obj/
+
+# Archivos temporales y logs
+*.log
+*.tmp
+*.temp
+*.bak
+
+# Archivos generados por SQLite
+*.db
+*.db-wal
+*.db-shm
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code
+.vscode/
+
+# Configuración sensible
+secrets.json
+
+# Otros archivos que no deseás versionar
+*.DS_Store
+Thumbs.db
