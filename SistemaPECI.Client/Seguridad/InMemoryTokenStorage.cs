@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using SistemaPECI.Client.Interfaces;
+using System.Threading.Tasks;
 
 namespace SistemaPECI.Client.Seguridad
 {

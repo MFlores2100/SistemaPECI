@@ -10,6 +10,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Shared\**" />
+    <Compile Remove="Utilidades\**" />
+    <Content Remove="Shared\**" />
+    <Content Remove="Utilidades\**" />
+    <EmbeddedResource Remove="Shared\**" />
+    <EmbeddedResource Remove="Utilidades\**" />
+    <None Remove="Shared\**" />
+    <None Remove="Utilidades\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="9.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.17" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.6" />
@@ -23,10 +34,7 @@
 
   <ItemGroup>
     <Folder Include="Modelos\" />
-    <Folder Include="Interfaces\" />
-    <Folder Include="Utilidades\" />
     <Folder Include="Servicios\" />
-    <Folder Include="Shared\" />
   </ItemGroup>
 
 </Project>

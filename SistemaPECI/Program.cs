@@ -1,22 +1,21 @@
-using SistemaPECI.Client.Pages;
-using SistemaPECI.Components;
-using SistemaPECI.Seguridad;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+锘縰sing Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.IdentityModel.Tokens;
+using SistemaPECI.Client;
+using SistemaPECI.Client.Interfaces;
+using SistemaPECI.Client.Seguridad;
+using SistemaPECI.Client.Servicios;
+using SistemaPECI.Components;
 using System.Text;
-using SistemaPECI.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents()
-    .AddInteractiveWebAssemblyComponents();
+// Leer configuraci贸n JWT
+var jwtKey = builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("Jwt:Key is missing.");
+var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? throw new InvalidOperationException("Jwt:Issuer is missing.");
+var jwtAudience = builder.Configuration["Jwt:Audience"] ?? throw new InvalidOperationException("Jwt:Audience is missing.");
 
-// Agregar ITokenService
-builder.Services.AddScoped<ITokenService, TokenService>();
-
-// Agregar autenticaci髇
+// Agregar servicios de autenticaci贸n y autorizaci贸n
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>
     {
@@ -26,18 +25,31 @@ builder.Services.AddAuthentication("Bearer")
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+            ValidIssuer = jwtIssuer,
+            ValidAudience = jwtAudience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
         };
     });
 
 builder.Services.AddAuthorization();
 
+// Inyecci贸n de dependencias para servicios personalizados
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<ITokenStorage, InMemoryTokenStorage>();
+builder.Services.AddScoped<ILoginAPIService, LoginAPIService>();
+builder.Services.AddScoped<CustomAuthStateProvider>();
+builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
+
+// Blazor y componentes interactivos
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents()
+    .AddInteractiveWebAssemblyComponents();
+
+builder.Services.AddCascadingAuthenticationState();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// 馃寪 Configuraci贸n del pipeline HTTP
 if (app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
@@ -45,19 +57,16 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
-app.UseBlazorFrameworkFiles();
-app.UseStaticFiles();
-
 app.UseHttpsRedirection();
+app.UseStaticFiles();
+app.UseBlazorFrameworkFiles();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseStaticFiles();
 app.UseAntiforgery();
 
 app.MapRazorComponents<App>()

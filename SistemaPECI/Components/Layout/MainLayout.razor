@@ -1,23 +1,37 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<PageTitle>Sistema PECI</PageTitle>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
+<div class="main-layout">
+    <!-- Cabecera -->
+    <header class="bg-dark text-white p-3 d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">Sistema PECI</h5>
+        <span class="fw-light">Bienvenido</span>
+    </header>
 
-        <article class="content px-4">
-            @Body
-        </article>
+    <!-- Barra de navegación -->
+    <nav class="bg-light border-bottom px-3 py-2">
+        <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">Inicio</NavLink>
+        <NavLink class="nav-link" href="/casos">Casos</NavLink>
+        <NavLink class="nav-link" href="/usuarios">Usuarios</NavLink>
+        <NavLink class="nav-link" href="/reportes">Reportes</NavLink>
+        <NavLink class="nav-link" href="/login">Cerrar sesión</NavLink>
+    </nav>
+
+    <!-- Contenido -->
+    <main class="container my-4">
+        @Body
     </main>
+
+    <!-- Pie de página -->
+    <footer class="text-center text-muted py-3 border-top small">
+        &copy; @DateTime.Now.Year Sistema PECI
+    </footer>
 </div>
 
-<div id="blazor-error-ui">
-    An unhandled error has occurred.
-    <a href="" class="reload">Reload</a>
-    <a class="dismiss">🗙</a>
-</div>
+<style>
+    .nav-link {
+        margin-right: 1rem;
+    }
+</style>
+

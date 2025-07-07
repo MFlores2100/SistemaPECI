@@ -1,4 +1,4 @@
-﻿namespace SistemaPECI.Client.Seguridad
+﻿namespace SistemaPECI.Client.Interfaces
 {
     public interface ITokenStorage
     {
