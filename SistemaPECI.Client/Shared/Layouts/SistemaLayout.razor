@@ -1,0 +1,44 @@
+﻿@inherits LayoutComponentBase
+
+<PageTitle>Sistema PECI</PageTitle>
+<head>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+
+<div class="sistema-layout d-flex flex-column min-vh-100">
+	<!--Header-->
+	<header class="d-flex justify-content-between align-items-center text-white px-4 py-3" style="background-color: #005595">
+		<div>
+			<!--<img src="images/logo-ice.png" alt="Grupo ICE" style="height: 40px;"/>-->
+		</div>
+		<div class="text-end text-muted small">
+			<i class="bi bi-person-circle"></i>
+			Rol: Usuario
+		</div>
+	</header>
+	<!--Divisor línea amarilla-->
+	<div style="height: 4px; background-color: #fcce0d;"></div>
+	<!--Body-->
+	<main class="flex-grow-1 p-4 bg-light">
+		@Body
+	</main>
+
+	<!--Footer-->
+	<footer class="footer text-center py-3 text-white" style="background-color: #005595; position: relative;">
+		<div style="height: 4px; background-color: #fcce0d; position: absolute; top: 0; left: 0; right: 0;"></div>
+		<!--<img src="images/logo-ice.png" alt="Grupo ICE" style="height: 30px;"/>-->
+	</footer>
+</div>
+
+<style>
+	.sistema-layout {
+		font-family: 'Segoe UI', sans-serif;
+	}
+	main {
+		min-height: 500px;
+	}
+</style>
+
+@code {
+
+}

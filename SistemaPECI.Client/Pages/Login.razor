@@ -7,43 +7,77 @@
 @using SistemaPECI.Client.Modelos
 @using SistemaPECI.Client.Seguridad
 
-<div class="d-flex justify-content-center align-items-center" style="height: 100vh; background: linear-gradient(135deg, #005595, #0078A5);">
-    <div class="card shadow-lg p-4" style="width: 100%; max-width: 400px;">
-        <h4 class="text-center text-primary mb-4">Iniciar sesión</h4>
+<div class="login-container d-flex flex-wrap">
+    <div class="login-left d-flex flex-column justify-content-center align-items-center text-white p-5">
+        <img src="favicon-32x32" alt="Logo ICE" style="max-width: 120px;" class="mb-4"/>
+        <h2 class="fw-bold mb-3">Te damos la bienvenida a PECI</h2>
+    </div>
+    <div class="login-right d-flex align-items-center justify-content-center bg-white w-65">
+        <div class="card shadow-lg p-4" style="width: 100%; max-width: 400px;">
+            <h4 class="text-center text-primary mb-4">Iniciar sesión</h4>
 
-        <EditForm Model="@loginModel" OnValidSubmit="HandleLogin">
-            <DataAnnotationsValidator />
-            <ValidationSummary />
+            <EditForm Model="@loginModel" OnValidSubmit="HandleLogin">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
 
-            <div class="mb-3">
-                <label class="form-label">Correo</label>
-                <InputText @bind-Value="loginModel.Correo" class="form-control" />
-            </div>
+                <div class="mb-3">
+                    <label class="form-label">Correo</label>
+                    <InputText @bind-Value="loginModel.Correo" class="form-control" />
+                </div>
 
-            <div class="mb-3">
-                <label class="form-label">Contraseña</label>
-                <InputText @bind-Value="loginModel.Contraseña" type="password" class="form-control" />
-            </div>
+                <div class="mb-3">
+                    <label class="form-label">Contraseña</label>
+                    <InputText @bind-Value="loginModel.Contraseña" type="password" class="form-control" />
+                </div>
 
-            @if (!string.IsNullOrEmpty(errorMessage))
-            {
-                <div class="alert alert-danger">@errorMessage</div>
-            }
-
-            <button type="submit" class="btn btn-primary w-100" disabled="@isCargando">
-                @if (isCargando)
+                @if (!string.IsNullOrEmpty(errorMessage))
                 {
-                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                    <span>Iniciando...</span>
+                    <div class="alert alert-danger">@errorMessage</div>
                 }
-                else
-                {
-                    <span>Ingresar</span>
-                }
-            </button>
-        </EditForm>
+
+                <button type="submit" class="btn btn-primary w-100" disabled="@isCargando">
+                    @if (isCargando)
+                    {
+                        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                        <span>Iniciando...</span>
+                    }
+                    else
+                    {
+                        <span>Ingresar</span>
+                    }
+                </button>
+            </EditForm>
+        </div>
     </div>
 </div>
+
+<style>
+    .login-container {
+        background: linear-gradient(135deg, #003366, #004b7c);
+        width: 100%;
+    }
+
+    .login-left {
+        width: 40%;
+        background-size: cover;
+    }
+
+    .login-right {
+        width: 60%;
+    }
+
+    @@media (max-width: 768px){
+        .login-container{
+            flex-direction: column;
+        }
+
+        .login-left,
+        .login-right {
+            width: 100%;
+        }
+    }
+</style>
+
 
 @code {
     private LoginModel loginModel = new();

@@ -1,0 +1,68 @@
+﻿@inherits LayoutComponentBase
+
+<PageTitle>Sistema PECI</PageTitle>
+
+<div class="sistema-layout d-flex flex-column min-vh-100">
+	
+
+	<!--Body-->
+	<main class="flex-grow-1 px-4 py-3">
+		@Body
+	</main>
+
+	<!--Footer-->
+	<footer class="footer text-center py-3 text-white" style="background-color: #005595; position: relative;">
+		<div style="height: 4px; background-color: #ffd100; position: absolute; top: 0; left: 0; right: 0;"></div>
+		<!--<img src="images/logo-ice.png" alt="Grupo ICE" style="height: 30px;"/>-->
+	</footer>
+</div>
+
+<style>
+	.sistema-layout {
+		background-color: #005595;
+		font-family: 'Segoe UI', sans-serif;
+	}
+	main {
+		min-height: 500px;
+	}
+	.header-principal{
+		background-color: #005595;
+		color: white;
+		display: flex;
+		flex-direction: column;
+		box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+	}
+	.linea-amarilla{
+		background-color: #FCCE0D;
+		height: 4px;
+		width: 100%;
+	}
+	.contenido-header{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 12px 24px;
+	}
+
+	.titulo-izquierda{
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		font-weight: 600;
+		font-size: 1.2rem;
+	}
+
+	.logo-ice{
+		height: 36px;
+	}
+
+	.rol-derecha {
+		font-size: 0.9rem;
+		font-weight: 400;
+		color: #e0e0e0;
+	}
+</style>
+
+@code {
+
+}

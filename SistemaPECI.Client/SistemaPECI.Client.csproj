@@ -10,13 +10,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Shared\**" />
     <Compile Remove="Utilidades\**" />
-    <Content Remove="Shared\**" />
     <Content Remove="Utilidades\**" />
-    <EmbeddedResource Remove="Shared\**" />
     <EmbeddedResource Remove="Utilidades\**" />
-    <None Remove="Shared\**" />
     <None Remove="Utilidades\**" />
   </ItemGroup>
 
