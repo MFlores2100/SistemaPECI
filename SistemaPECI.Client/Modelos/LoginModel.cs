@@ -1,8 +1,17 @@
-﻿namespace SistemaPECI.Client.Modelos
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SistemaPECI.Client.Modelos
 {
     public class LoginModel
     {
-        public string Correo { get; set; }
-        public string Contraseña { get; set; }
+        [Required(ErrorMessage = "El correo es obligatorio")]
+        [EmailAddress(ErrorMessage = "Formato de correo no válido")]
+        public string Correo { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "La contraseña es obligatoria")]
+        public string Contraseña { get; set; } = string.Empty;
+
+        
+
     }
 }

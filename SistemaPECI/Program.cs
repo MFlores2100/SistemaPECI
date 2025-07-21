@@ -35,6 +35,7 @@ builder.Services.AddAuthorization();
 
 // Inyección de dependencias para servicios personalizados
 builder.Services.AddHttpClient();
+builder.Services.AddControllers();
 builder.Services.AddScoped<ITokenStorage, InMemoryTokenStorage>();
 builder.Services.AddScoped<ILoginAPIService, LoginAPIService>();
 builder.Services.AddScoped<CustomAuthStateProvider>();
@@ -69,6 +70,7 @@ app.UseAuthorization();
 
 app.UseAntiforgery();
 
+app.MapControllers();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddInteractiveWebAssemblyRenderMode()
