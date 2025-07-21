@@ -1,0 +1,121 @@
+﻿@page "/financiamiento"
+
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JS
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+</head>
+
+<div class="container mt-5">
+    <h3 class="page-title">Financiamiento</h3>
+
+    <div class="row justify-content-center g-4">
+
+        <!-- Ver Lista de Precios -->
+        <div class="col-12 col-md-3">
+            <button class="btn-menu-square"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="bottom"
+                    title="Consulta la lista actualizada de precios para los programas y recursos."
+                    @onclick="IrAVerListaPrecios">
+                <i class="bi bi-tags icon-btn"></i><br />
+                Ver Lista de Precios
+            </button>
+        </div>
+
+        <!-- Ver Proyección de Inversiones -->
+        <div class="col-12 col-md-3">
+            <button class="btn-menu-square"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="bottom"
+                    title="Visualiza la proyección de inversiones a mediano y largo plazo."
+                    @onclick="IrAVerProyeccionInversiones">
+                <i class="bi bi-graph-up icon-btn"></i><br />
+                Ver Proyección de Inversiones
+            </button>
+        </div>
+
+        <!-- Gestión de Financiamiento -->
+        <div class="col-12 col-md-3">
+            <button class="btn-menu-square"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="bottom"
+                    title="Administra los recursos y asignaciones financieras de los programas."
+                    @onclick="IrAGestionFinanciamiento">
+                <i class="bi bi-wallet2 icon-btn"></i><br />
+                Gestión de Financiamiento
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    .page-title {
+        background-color: #005595;
+        color: #ffffff;
+        padding: 15px 0;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        font-weight: bold;
+        font-size: 28px;
+        text-align: center;
+    }
+
+    .btn-menu-square {
+        background-color: #005595 !important;
+        color: #ffffff !important;
+        border: none !important;
+        width: 180px !important;
+        height: 180px !important;
+        border-radius: 20px !important;
+        font-size: 14px !important;
+        font-weight: bold !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        transition: background-color 0.3s ease, transform 0.2s !important;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2) !important;
+        white-space: normal !important;
+        cursor: pointer;
+    }
+
+        .btn-menu-square:hover {
+            background-color: #004080 !important;
+            transform: scale(1.05) !important;
+        }
+
+    .icon-btn {
+        font-size: 50px !important;
+        margin-bottom: 10px;
+        color: #ffffff !important;
+    }
+</style>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("initTooltips");
+        }
+    }
+
+    void IrAVerListaPrecios()
+    {
+        NavigationManager.NavigateTo("/listaprecios");
+    }
+
+    void IrAVerProyeccionInversiones()
+    {
+        NavigationManager.NavigateTo("/proyeccioninversiones");
+    }
+
+    void IrAGestionFinanciamiento()
+    {
+        NavigationManager.NavigateTo("/gestionfinanciamiento");
+    }
+}

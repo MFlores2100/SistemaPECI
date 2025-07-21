@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SistemaPECI.Data.Entidades;
 
+
 namespace SistemaPECI.Data.Context
 {
     public class DBContext : DbContext

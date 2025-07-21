@@ -1,0 +1,90 @@
+﻿@page "/Menuprincipal"
+
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JS
+
+<div class="container text-center mt-5">
+    <div class="row justify-content-center g-5">
+
+        <!-- Botón de PLANIFICACIÓN -->
+        <!-- Botón de PLANIFICACIÓN Correcto y que se redirige-->
+
+        <div class="col-md-4">
+            <a href="/planificacion"
+               class="btn-menu"
+               data-bs-toggle="tooltip"
+               data-bs-placement="bottom"
+               title="Esta opción permite gestionar la planificación de las actividades del sistema, brindando una guía detallada para organizar y estructurar el proceso de un programa.">
+                PLANIFICACIÓN
+            </a>
+        </div>
+
+
+
+
+        <!-- Botón de EJECUCIÓN -->
+        <div class="col-md-4">
+            <button class="btn-menu"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="bottom"
+                    title="Esta opción facilita la ejecución de las actividades del sistema, permitiendo la comparación entre lo planificado y lo concretado"
+                    @onclick="IrAEjecucion">
+                EJECUCIÓN
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<style>
+    .btn-menu {
+        background-color: #005595 !important;
+        color: #ffffff !important;
+        border: none !important;
+        padding: 15px 40px !important;
+        border-radius: 30px !important;
+        font-size: 18px !important;
+        font-weight: bold !important;
+        transition: background-color 0.3s ease, transform 0.2s !important;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2) !important;
+        display: inline-block !important;
+        text-decoration: none !important;
+    }
+
+        .btn-menu:hover {
+            background-color: #004080 !important;
+            cursor: pointer !important;
+            transform: scale(1.05) !important;
+        }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f9f9f9;
+    }
+
+    h3 {
+        color: #005BA9;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+</style>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("initTooltips");
+        }
+    }
+
+    void IrAEjecucion()
+    {
+        NavigationManager.NavigateTo("/ejecucion", forceLoad: true);
+    }
+
+    void IrAPlanificacion()
+    {
+        NavigationManager.NavigateTo("/planificacion", forceLoad: true);
+    }
+}

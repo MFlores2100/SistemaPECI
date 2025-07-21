@@ -1,0 +1,170 @@
+﻿@page "/MaterialesRequeridos"
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JS
+
+
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string? codigoPine { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string? nombrePrograma { get; set; }
+
+    List<MaterialModel> materiales = new List<MaterialModel>();
+
+    protected override void OnInitialized()
+    {
+        if (materiales.Count == 0)
+        {
+            materiales.Add(new MaterialModel());
+        }
+    }
+
+    void AgregarMaterial()
+    {
+        materiales.Add(new MaterialModel());
+    }
+
+    void EliminarMaterial(MaterialModel material)
+    {
+        materiales.Remove(material);
+    }
+
+    void GuardarMateriales()
+    {
+        // Aquí puedes guardar los materiales en BD
+        JS.InvokeVoidAsync("alert", $"Guardando {materiales.Count} materiales para el programa {nombrePrograma} ({codigoPine})");
+    }
+
+    public class MaterialModel
+    {
+        public string? Tipo { get; set; }
+        public string? NombreMaterial { get; set; }
+        public int? Cantidad { get; set; }
+    }
+}
+
+<div class="container formulario-materiales mt-5">
+    <h2 class="titulo-gestion">Materiales Requeridos</h2>
+
+    <div class="mb-3">
+        <label><strong>Código PINE:</strong></label>
+        <span>@codigoPine</span>
+    </div>
+    <div class="mb-3">
+        <label><strong>Nombre del Programa:</strong></label>
+        <span>@nombrePrograma</span>
+    </div>
+
+    <EditForm Model="@materiales" OnValidSubmit="GuardarMateriales">
+        @foreach (var material in materiales)
+        {
+            <div class="row g-3 align-items-end mb-3 border p-3 rounded">
+                <div class="col-md-4">
+                    <label>Tipo</label>
+                    <input class="form-control campo" @bind="material.Tipo" required />
+                </div>
+                <div class="col-md-5">
+                    <label>Nombre del Material</label>
+                    <input class="form-control campo" @bind="material.NombreMaterial" required />
+                </div>
+                <div class="col-md-2">
+                    <label>Cantidad</label>
+                    <input class="form-control campo" type="number" min="1" @bind="material.Cantidad" required />
+                </div>
+                <div class="col-md-1 d-flex justify-content-center">
+                    <button type="button"
+                            class="btn btn-danger btn-icon"
+                            @onclick="() => EliminarMaterial(material)"
+                            title="Eliminar material">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>
+            </div>
+        }
+
+        <div class="mb-3">
+            <span class="agregar-texto" @onclick="AgregarMaterial" style="cursor: pointer;">
+                <i class="bi bi-plus-lg"></i> Agregar otro material
+            </span>
+        </div>
+
+        <div class="text-end">
+            <button type="submit" class="btn btn-agregar">
+                <i class="bi bi-save"></i> Guardar Materiales
+            </button>
+        </div>
+    </EditForm>
+</div>
+
+<style>
+    .titulo-gestion {
+        background-color: #005595;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        font-size: 32px;
+        font-weight: bold;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+
+    .formulario-materiales {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    .campo {
+        background-color: #ffffff;
+        color: #333333;
+        border: 2px solid #666666;
+        border-radius: 4px;
+        font-weight: normal;
+        text-align: center;
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+        .campo:focus {
+            border-color: #005595;
+            box-shadow: 0 0 5px rgba(0, 85, 149, 0.5);
+            outline: none;
+        }
+
+        .campo::placeholder {
+            color: #ffffff;
+            opacity: 0.7;
+        }
+
+    .btn-agregar {
+        background-color: #005595;
+        color: #ffffff;
+        border: none;
+        padding: 10px 20px;
+        font-weight: bold;
+        border-radius: 8px;
+        font-size: 18px;
+    }
+
+        .btn-agregar:hover {
+            background-color: #004080;
+        }
+
+    .btn-icon {
+        padding: 4px 6px;
+        border-radius: 4px;
+        font-size: 16px;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>

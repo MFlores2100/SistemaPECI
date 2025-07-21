@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SistemaPECI.Client;
 using SistemaPECI.Client.Interfaces;
 using SistemaPECI.Client.Seguridad;
 using SistemaPECI.Client.Servicios;
 using SistemaPECI.Components;
+//Agregue este 
+using SistemaPECI.Data.Context;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,6 +43,12 @@ builder.Services.AddScoped<ITokenStorage, InMemoryTokenStorage>();
 builder.Services.AddScoped<ILoginAPIService, LoginAPIService>();
 builder.Services.AddScoped<CustomAuthStateProvider>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
+//Tambien agregue estos
+builder.Services.AddDbContext<DBContext>(options =>
+    options.UseSqlite("Data Source=BaseDatosPECI.db"));
+
+
+
 
 // Blazor y componentes interactivos
 builder.Services.AddRazorComponents()
