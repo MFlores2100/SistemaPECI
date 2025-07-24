@@ -16,7 +16,7 @@ namespace SistemaPECI.Client.Servicios
         {
             Console.WriteLine($"BaseAddress: {_http.BaseAddress}");
 
-            var response = await _http.PostAsJsonAsync("https://localhost:7098/api/login", loginModel);
+            var response = await _http.PostAsJsonAsync("https://localhost:7098/api/Login", loginModel);
 
             if (!response.IsSuccessStatusCode)
                 throw new Exception("Error de autenticación");

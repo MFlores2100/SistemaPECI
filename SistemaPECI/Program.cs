@@ -7,16 +7,17 @@ using SistemaPECI.Client.Interfaces;
 using SistemaPECI.Client.Seguridad;
 using SistemaPECI.Client.Servicios;
 using SistemaPECI.Components;
-//Agregue este 
 using SistemaPECI.Data.Context;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Leer configuración JWT
-var jwtKey = builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("Jwt:Key is missing.");
-var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? throw new InvalidOperationException("Jwt:Issuer is missing.");
-var jwtAudience = builder.Configuration["Jwt:Audience"] ?? throw new InvalidOperationException("Jwt:Audience is missing.");
+var jwtKey = builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("Jwt:Hace falta la llave.");
+var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? throw new InvalidOperationException("Jwt:Hace falta el Issuer.");
+var jwtAudience = builder.Configuration["Jwt:Audience"] ?? throw new InvalidOperationException("Jwt:La audiencia no está.");
+var secretKey = builder.Configuration["JwtSettings:SecretKey"];
+var key = Encoding.ASCII.GetBytes(secretKey);
 
 // Agregar servicios de autenticación y autorización
 builder.Services.AddAuthentication("Bearer")
@@ -30,7 +31,7 @@ builder.Services.AddAuthentication("Bearer")
             ValidateIssuerSigningKey = true,
             ValidIssuer = jwtIssuer,
             ValidAudience = jwtAudience,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+            IssuerSigningKey = new SymmetricSecurityKey(key)
         };
     });
 
@@ -48,6 +49,9 @@ builder.Services.AddDbContext<DBContext>(options =>
     options.UseSqlite("Data Source=BaseDatosPECI.db"));
 
 
+
+
+builder.Services.AddDbContext<DBContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
 // Blazor y componentes interactivos

@@ -1,7 +1,8 @@
 ﻿@page "/planificacion"
-
+@layout SistemaLayout
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JS
+@using SistemaPECI.Client.Shared.Layouts
 
 
 <head>
@@ -140,6 +141,6 @@
 
     void IrACatalogoMateriales()
     {
-        NavigationManager.NavigateTo("/catalogomateriales");
+        NavigationManager.NavigateTo("/catalogoateriales");
     }
 }
